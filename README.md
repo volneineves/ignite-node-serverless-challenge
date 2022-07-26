@@ -17,7 +17,6 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - [Node.js](https://nodejs.org/en/)
 - [Typescript](https://www.typescriptlang.org/)
 - [Serverless Framework](serverless.com/)
-- [Amazon Lambda](https://aws.amazon.com/pt/lambda/)
 
 ## 🚀 Como executar
 
@@ -29,11 +28,6 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - Rode `yarn dynamodb:install` para baixar o DynamoDB localmente
 - Rode `yarn dynamo:start` para iniciar o banco de dados em ambiente local
 - Rode, em outro terminal, o `yarn dev` para iniciar a aplicação em ambiente local
-
-### Para fazer o deploy
-
-- Configurar as credenciais do usuário
-- Rode `yarn deploy` para subir o projeto para AWS Lambda
 
 ## 📄 Licença
 
