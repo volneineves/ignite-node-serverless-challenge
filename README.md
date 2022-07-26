@@ -17,7 +17,6 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - [Node.js](https://nodejs.org/en/)
 - [Typescript](https://www.typescriptlang.org/)
 - [Serverless Framework](serverless.com/)
-- [Puppeteer](https://github.com/puppeteer/puppeteer)
 - [Amazon Lambda](https://aws.amazon.com/pt/lambda/)
 
 ## 🚀 Como executar
