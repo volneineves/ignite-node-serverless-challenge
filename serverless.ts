@@ -1,11 +1,13 @@
 import type { AWS } from "@serverless/typescript";
 
-import hello from "@functions/hello";
-
 const serverlessConfiguration: AWS = {
-  service: "challenge-rockeckseat",
+  service: "challenge_rocketseat",
   frameworkVersion: "3",
-  plugins: ["serverless-esbuild"],
+  plugins: [
+    "serverless-esbuild",
+    "serverless-dynamodb-local",
+    "serverless-offline",
+  ],
   provider: {
     name: "aws",
     runtime: "nodejs14.x",
@@ -19,8 +21,56 @@ const serverlessConfiguration: AWS = {
     },
   },
   // import the function via paths
-  functions: { hello },
-  package: { individually: true },
+  functions: {
+    createTodo: {
+      handler: "src/functions/createTodo.handler",
+      events: [
+        {
+          http: {
+            path: "/todos/{user_id}",
+            method: "post",
+            cors: true,
+          },
+        },
+      ],
+    },
+    getTodos: {
+      handler: "src/functions/getTodos.handler",
+      events: [
+        {
+          http: {
+            path: "/todos/{user_id}",
+            method: "get",
+            cors: true,
+          },
+        },
+      ],
+    },
+    doneTodo: {
+      handler: "src/functions/doneTodo.handler",
+      events: [
+        {
+          http: {
+            path: "/todos/{id}/done",
+            method: "put",
+            cors: true,
+          },
+        },
+      ],
+    },
+    deleteTodo: {
+      handler: "src/functions/deleteTodo.handler",
+      events: [
+        {
+          http: {
+            path: "/todos/{id}/delete",
+            method: "delete",
+            cors: true,
+          },
+        },
+      ],
+    },
+  },
   custom: {
     esbuild: {
       bundle: true,
@@ -32,26 +82,34 @@ const serverlessConfiguration: AWS = {
       platform: "node",
       concurrency: 10,
     },
+    dynamodb: {
+      stages: ["dev", "local"],
+      start: {
+        port: 8000,
+        inMemory: true,
+        migrate: true,
+      },
+    },
   },
   resources: {
     Resources: {
-      dbCertificateUsers: {
+      dbTodo: {
         Type: "AWS::DynamoDB::Table",
         Properties: {
-          TableName: "users_challenge",
+          TableName: "todos",
           ProvisionedThroughput: {
-            ReadCapacityUnits: 5,
+            ReadCapacityUnits: 5, //requisições por segundo
             WriteCapacityUnits: 5,
           },
           AttributeDefinitions: [
             {
-              AttributesName: "id",
+              AttributeName: "id",
               AttributeType: "S",
             },
           ],
           KeySchema: [
             {
-              AtributeName: "id",
+              AttributeName: "id",
               KeyType: "HASH",
             },
           ],
